@@ -8,8 +8,14 @@ data = requests.get('https://movie.naver.com/movie/sdb/rank/rmovie.naver?sel=pnt
 soup = BeautifulSoup(data.text, 'html.parser')
 
 #old_content > table > tbody > tr:nth-child(4) > td.title > div > a
+#old_content > table > tbody > tr:nth-child(4) > td:nth-child(1) > img
+#old_content > table > tbody > tr:nth-child(3) > td:nth-child(3) > div > div > img
+
 trs = soup.select('#old_content > table > tbody > tr')
 for tr in trs:
     a = tr.select_one('td.title > div > a')
     if a is not None:
-        print(a.text)
+        title = a.text
+        rank = tr.select_one('td:nth-child(1) > img')['alt']
+        star = tr.select_one('td:nth-child(3) > div > div > img').text
+        print(title, rank, star)
